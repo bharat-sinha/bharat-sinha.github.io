@@ -1,0 +1,256 @@
+{
+  "profile": {
+    "name": "Bharat Sinha",
+    "role": "Data Analyst",
+    "location": "Delhi NCR",
+    "email": "sinha.bharat8@gmail.com",
+    "eyebrow": "Data Analyst | Delhi NCR",
+    "headline": "Bharat Sinha, Data Analyst, turns raw data into actionable insights",
+    "sub": "Advanced Excel, SQL, Power BI and Python. 11+ years of technical training experience, now building data analytics projects.",
+    "statement": "For over eleven years I turned complex tools into simple lessons for more than fifteen hundred learners. Now I use Advanced Excel, SQL, Power BI and Python to turn raw data into decisions a business can act on.",
+    "summary": "Analytically-driven professional transitioning into Data Analytics, backed by 11+ years in technical training and structured problem-solving. Proficient in Advanced Excel (Power Query, Pivot Tables, data visualization dashboards) with working knowledge of SQL and Python, demonstrated through self-driven analytics projects translating raw data into actionable business insights. Strong communicator with a proven record of simplifying complex concepts, now applying the same analytical rigor to uncover trends and drive data-backed decisions.",
+    "contactLead": "Open to Data Analyst opportunities. Send a message or connect on LinkedIn. Based in Delhi NCR, India."
+  },
+  "social": {
+    "linkedin": "https://www.linkedin.com/in/bharat-sinha-122791130/",
+    "github": "https://github.com/bharat-sinha",
+    "leetcode": "https://leetcode.com/u/bharat-sinha"
+  },
+  "metrics": {
+    "ticketValue": 53,
+    "ticketPrefix": "Rs. ",
+    "ticketSuffix": "M+",
+    "ticketLabel": "Revenue analyzed",
+    "circleValue": 197,
+    "circleSuffix": "K+",
+    "circleLabel": "orders analyzed"
+  },
+  "projects": [
+    {
+      "title": "Swiggy Sales & Customer Behavior Analysis",
+      "subtitle": "Order, revenue and regional demand dashboard",
+      "year": "2026",
+      "tags": [
+        "Excel",
+        "Power Query",
+        "Pivot Tables",
+        "Slicers"
+      ],
+      "problem": "Understand revenue, demand trends and regional performance across ~197K orders (Rs. 53M+).",
+      "approach": "Cleaned and modelled data with Power Query and Pivot Tables, then built city/state dashboards with dynamic slicers benchmarking Average Order Value (Rs. 268).",
+      "impact": "Identified a 33% Q3 demand decline despite stable ratings, flagging a key business risk, and supported Tier-2 expansion strategy.",
+      "repo": "https://github.com/bharatsinhaanalyst/Swiggy-Sales-Analysis-Excel",
+      "live": "",
+      "image": "images/swiggy-dashboard-1600.webp",
+      "highlights": [
+        "Rs. 53M+ revenue analyzed",
+        "~197K orders analyzed",
+        "Rs. 268 average order value",
+        "33% Q3 demand decline identified",
+        "4.34 average customer rating",
+        "Bengaluru is the top city by sales (Rs. 5.46M)"
+      ],
+      "imageSmall": "images/swiggy-dashboard-960.webp",
+      "imageOg": "images/swiggy-dashboard-og.jpg",
+      "imageAlt": "Swiggy sales dashboard built in Excel showing total sales of Rs. 53.01M, 197.43K orders, an average order value of Rs. 268.51, monthly and daily sales trends, sales by state and the top five cities by sales"
+    },
+    {
+      "title": "Hospital Emergency Room Operations Analysis",
+      "subtitle": "ER wait time, satisfaction and load dashboard",
+      "year": "2026",
+      "tags": [
+        "Excel",
+        "Power Query",
+        "Pivot Tables",
+        "Slicers"
+      ],
+      "problem": "Understand how wait times, patient demographics and referrals affect satisfaction across 9,216 ER visits.",
+      "approach": "Built an Excel operations dashboard and ran demographic and departmental referral analysis.",
+      "impact": "Linked a 35.26 min average wait to satisfaction trends and efficiency gaps, and found high-load segments (age 60-69, General Practice/Orthopedics) to inform triage and staffing.",
+      "repo": "https://github.com/bharatsinhaanalyst/Hospital-Emergency-Room-Analysis-Excel",
+      "live": "",
+      "image": "images/hospital-dashboard-1600.webp",
+      "highlights": [
+        "9,216 ER patient visits analyzed",
+        "35.26 min average wait time",
+        "Age group 60-69 identified as highest load",
+        "General Practice and Orthopedics identified as high-load departments",
+        "Patient satisfaction score of 4.99",
+        "4,612 patients admitted vs 4,604 not admitted"
+      ],
+      "imageSmall": "images/hospital-dashboard-960.webp",
+      "imageOg": "images/hospital-dashboard-og.jpg",
+      "imageAlt": "Hospital emergency room dashboard built in Excel showing 9,216 patients, a 35.26 minute average wait time, a patient satisfaction score of 4.99, patients by gender, age group and department referral, with year and month selectors"
+    }
+  ],
+  "skills": [
+    {
+      "title": "Analysis Tools",
+      "icon": "chart",
+      "items": [
+        "Advanced Excel",
+        "Power Query",
+        "Pivot Tables",
+        "VBA",
+        "Macros",
+        "SQL",
+        "Power BI",
+        "Dashboards",
+        "Slicers"
+      ]
+    },
+    {
+      "title": "Analytics",
+      "icon": "db",
+      "items": [
+        "Data Cleaning",
+        "EDA",
+        "KPI Analysis",
+        "Trend Analysis",
+        "Data Visualization",
+        "Business Reporting"
+      ]
+    },
+    {
+      "title": "Programming",
+      "icon": "code",
+      "items": [
+        "Python",
+        "SQL"
+      ]
+    },
+    {
+      "title": "MS Office",
+      "icon": "brief",
+      "items": [
+        "Word",
+        "Advanced Excel",
+        "PowerPoint",
+        "Access"
+      ]
+    }
+  ],
+  "experience": [
+    {
+      "role": "Senior Software Faculty",
+      "org": "Lal Bahadur Shastri Training Institute, Delhi",
+      "period": "Nov 2014 - Present",
+      "bullets": [
+        "Trained 1500+ learners in MS Office, Advanced Excel, C/C++, Java and Internet basics, using data-driven skill-gap analysis and performance reporting to improve retention.",
+        "Reduced system downtime via data-backed root-cause analysis, optimizing lab operations and resource efficiency.",
+        "Ensured operational continuity during Center Incharge absence, standardizing training documentation and reporting."
+      ]
+    }
+  ],
+  "education": [
+    {
+      "title": "BCA, IGNOU",
+      "sub": "2016 - 2019 | 62.32%"
+    },
+    {
+      "title": "CBSE",
+      "sub": "Class 10: 83.6% (2011) | Class 12: 61.2% (2013)"
+    },
+    {
+      "title": "Diploma in Multimedia",
+      "sub": "Lal Bahadur Shastri Training Institute, Dilshad Garden (2014)"
+    },
+    {
+      "title": "Basic Computer Course",
+      "sub": "DCS Computer Education Center (2011)"
+    }
+  ],
+  "languages": "English, Hindi",
+  "siteUrl": "https://bharat-sinha.github.io/",
+  "faq": [
+    {
+      "q": "Who is Bharat Sinha?",
+      "a": "Bharat Sinha is a Data Analyst based in Delhi NCR, India, with 11+ years of experience in technical training and structured problem-solving. He is proficient in Advanced Excel (Power Query, Pivot Tables, dashboards) with working knowledge of SQL and Python."
+    },
+    {
+      "q": "What tools does Bharat Sinha use for data analysis?",
+      "a": "Advanced Excel (Power Query, Pivot Tables, VBA, Macros, dynamic dashboards and slicers), SQL, Power BI and Python."
+    },
+    {
+      "q": "What data analysis projects has he built?",
+      "a": "A Swiggy sales and customer behavior analysis (Rs. 53M+ revenue across ~197K orders, where he identified a 33% Q3 demand decline) and a hospital emergency room operations analysis (9,216 patient visits, 35.26 minute average wait)."
+    },
+    {
+      "q": "Where is Bharat Sinha based?",
+      "a": "Delhi NCR, India."
+    },
+    {
+      "q": "Is Bharat Sinha open to data analyst opportunities?",
+      "a": "Yes. He is open to Data Analyst opportunities. Use the contact form or LinkedIn to get in touch."
+    },
+    {
+      "q": "What does a data analyst do?",
+      "a": "A data analyst collects, cleans and interprets data to help a business make better decisions, using tools such as Excel, SQL and BI dashboards to find trends and report insights."
+    }
+  ],
+  "skillLevels": [
+    {
+      "name": "Advanced Excel",
+      "level": "proficient",
+      "note": "Power Query, Pivot Tables, VBA, macros and dynamic dashboards."
+    },
+    {
+      "name": "SQL",
+      "level": "working knowledge",
+      "note": "Querying data for analysis and reporting."
+    },
+    {
+      "name": "Power BI",
+      "level": "working knowledge",
+      "note": "Dashboards and visual reporting."
+    },
+    {
+      "name": "Data Cleaning",
+      "level": "proficient",
+      "note": "Cleaning and shaping raw data with Power Query."
+    },
+    {
+      "name": "Python",
+      "level": "working knowledge",
+      "note": "Python for data analysis."
+    },
+    {
+      "name": "Data Storytelling",
+      "level": "strong",
+      "note": "Explaining findings clearly, built on years of training learners."
+    }
+  ],
+  "cvFile": "Bharat Sinha CV.pdf",
+  "hallway": [
+    {
+      "big": "Rs. 53M+",
+      "label": "revenue analyzed",
+      "sub": "Swiggy sales and customer behavior analysis"
+    },
+    {
+      "big": "197K+",
+      "label": "orders analyzed",
+      "sub": "Swiggy dashboard in Excel"
+    },
+    {
+      "big": "9,216",
+      "label": "ER patient visits",
+      "sub": "Hospital emergency room operations analysis"
+    },
+    {
+      "big": "35.26 min",
+      "label": "average wait time",
+      "sub": "Linked to patient satisfaction trends"
+    },
+    {
+      "big": "1,500+",
+      "label": "learners trained",
+      "sub": "Technical training in Excel, MS Office and more"
+    },
+    {
+      "big": "11+",
+      "label": "years of experience",
+      "sub": "Technical training and structured problem-solving"
+    }
+  ]
+}

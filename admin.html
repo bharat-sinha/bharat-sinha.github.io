@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Portfolio CMS</title>
+<style>
+:root{--bg:#e7e2d5;--cd:#fbf9f3;--ink:#1d1c19;--mu:#5f5a50;--or:#f2935c;--ln:rgba(29,28,25,.2);--ok:#1f7a4d;--er:#a3321b;--wn:#b9770e}
+*{box-sizing:border-box;margin:0}
+[hidden]{display:none!important}
+body{font-family:"DM Sans",system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;background:var(--bg);color:var(--ink);line-height:1.55;padding-bottom:90px}
+h1,h2{font-family:Georgia,"Times New Roman",serif;font-weight:500}
+button,input,textarea,select{font:inherit;color:inherit}
+.top{position:sticky;top:0;z-index:50;background:var(--bg);border-bottom:1px solid var(--ln);display:flex;align-items:center;gap:10px;padding:10px 18px;flex-wrap:wrap}
+.top b{font-family:Georgia,serif;font-size:1.2rem;font-weight:600}
+.chip{font-size:.72rem;font-weight:700;padding:3px 10px;border-radius:99px;border:1px solid var(--ln);background:var(--cd);white-space:nowrap}
+#dirty{background:var(--or);border-color:var(--or)}
+.chip.ok{color:var(--ok);border-color:var(--ok)}.chip.er{color:var(--er);border-color:var(--er)}.chip.wn{color:var(--wn);border-color:var(--wn)}
+.acts{margin-left:auto;display:flex;gap:8px;flex-wrap:wrap}
+.pill,.sm{border:1px solid var(--ink);background:transparent;border-radius:99px;padding:9px 18px;cursor:pointer;font-weight:600;font-size:.78rem;letter-spacing:.06em;text-transform:uppercase;transition:.2s}
+.pill:hover,.sm:hover{background:var(--ink);color:var(--bg)}
+.pill.d{background:var(--ink);color:var(--bg)}.pill.d:hover{background:transparent;color:var(--ink)}
+.pill:disabled,.sm:disabled{opacity:.45;cursor:not-allowed}
+.sm{padding:5px 13px;font-size:.7rem}.del{border-color:var(--er);color:var(--er)}.del:hover{background:var(--er);color:#fff}
+.shell{display:flex;gap:18px;align-items:flex-start;max-width:1500px;margin:0 auto;padding:22px 18px}
+main{flex:1 1 640px;min-width:0;max-width:860px;margin:0 auto}
+.shell.split main{flex:0 0 min(520px,46%);margin:0}
+.card{background:var(--cd);border:1px solid var(--ln);border-radius:20px;padding:20px;margin-bottom:16px}
+.card h1{font-size:1.9rem;margin-bottom:6px}.card h2{font-size:1.25rem;margin-bottom:12px}
+p.mu,small,.mu{color:var(--mu)}
+label{display:block;font-size:.8rem;font-weight:600;margin:12px 0 0}
+input,textarea,select{width:100%;margin-top:5px;background:#fff;border:1px solid var(--ln);border-radius:12px;padding:10px 13px;font-size:.93rem}
+input:focus,textarea:focus,select:focus{outline:2px solid var(--or);border-color:transparent}
+textarea{resize:vertical}
+details.card{padding:0}details.card>summary{cursor:pointer;padding:15px 20px;font-weight:700;list-style:none;display:flex;justify-content:space-between;gap:10px}
+details.card>summary::after{content:"+";font-size:1.2rem}details[open]>summary::after{content:"\2212"}
+details.card>*:not(summary){margin-left:20px;margin-right:20px}details.card>.row{margin-bottom:20px}
+.row{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px;align-items:center}
+.tabs{display:flex;gap:7px;overflow-x:auto;padding-bottom:10px;margin-bottom:8px}
+.tab{border:1px solid var(--ink);background:transparent;border-radius:99px;padding:8px 16px;cursor:pointer;font-weight:600;white-space:nowrap;font-size:.88rem}
+.tab.on{background:var(--ink);color:var(--bg)}
+.note{background:#fff3d6;border:1px solid #e3c98a;border-radius:14px;padding:12px 16px;margin-bottom:14px;font-size:.9rem}
+.note .row{margin-top:8px}
+.imgrow{display:flex;gap:14px;align-items:center;margin-top:14px;flex-wrap:wrap}
+.imgrow img,.ph{width:150px;height:78px;object-fit:cover;border-radius:10px;border:1px solid var(--ln);background:var(--bg)}
+.ph{display:grid;place-items:center;font-size:.75rem;color:var(--mu)}
+.file{display:inline-block;margin:0 8px 6px 0;border:1px solid var(--ink);border-radius:99px;padding:6px 14px;font-size:.7rem;font-weight:700;cursor:pointer;text-transform:uppercase;letter-spacing:.06em}
+.chk{display:flex;gap:10px;align-items:flex-start;font-weight:400;font-size:.85rem}.chk input{width:auto;margin-top:4px}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px}
+.stat{border:1px solid var(--ln);border-radius:14px;padding:12px;background:#fff}.stat b{display:block;font-family:Georgia,serif;font-size:1.7rem;line-height:1.1}.stat small{font-size:.75rem}
+.ck{display:flex;gap:10px;align-items:flex-start;padding:9px 0;border-bottom:1px dashed var(--ln);font-size:.9rem}.ck:last-child{border:0}
+.ck i{font-style:normal;font-weight:800;min-width:22px;text-align:center}.ck.err i{color:var(--er)}.ck.warn i{color:var(--wn)}
+.lnk{background:none;border:0;padding:0;text-align:left;cursor:pointer;text-decoration:underline;font-size:inherit}
+.serp{background:#fff;border:1px solid var(--ln);border-radius:14px;padding:16px;font-family:Arial,sans-serif}
+.serp .su{font-size:.78rem;color:#4d5156;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.serp .st{font-size:1.2rem;color:#1a0dab;margin:2px 0 3px;line-height:1.3}.serp .sd{font-size:.86rem;color:#4d5156}
+.cnt{font-size:.74rem;font-weight:700}.cnt.ok{color:var(--ok)}.cnt.wn{color:var(--wn)}
+.lib{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px;margin-top:14px}
+.tile{border:1px solid var(--ln);border-radius:14px;overflow:hidden;background:#fff;display:flex;flex-direction:column}
+.tile img{width:100%;height:96px;object-fit:cover;background:var(--bg);display:block}
+.tile .tb{padding:8px 10px;font-size:.74rem;display:flex;flex-direction:column;gap:5px;flex:1}
+.tile .tb b{word-break:break-all;font-size:.74rem}.tile .tb .row{margin:0}
+.badge{display:inline-block;font-size:.64rem;font-weight:800;padding:2px 8px;border-radius:99px;background:var(--bg);width:max-content}.badge.use{background:#d7efe2;color:var(--ok)}.badge.new{background:#ffe2c9;color:#9a4a12}.badge.gone{background:#f6d4cc;color:var(--er)}
+.hist{display:flex;gap:12px;justify-content:space-between;align-items:flex-start;padding:12px 0;border-bottom:1px dashed var(--ln);flex-wrap:wrap}.hist:last-child{border:0}
+.diff{margin:8px 0 0;padding-left:18px;font-size:.84rem;color:var(--mu)}
+ol{padding-left:20px;font-size:.9rem;color:var(--mu)}ol li{margin-bottom:6px}
+#pvp{flex:1 1 0;min-width:0;position:sticky;top:64px;height:calc(100vh - 80px);display:flex;flex-direction:column;background:var(--cd);border:1px solid var(--ln);border-radius:18px;overflow:hidden}
+.pvh{display:flex;gap:8px;align-items:center;padding:8px 12px;border-bottom:1px solid var(--ln);flex-wrap:wrap}.pvh .sm.on{background:var(--ink);color:var(--bg)}.pvh .sp{margin-left:auto}
+.pvw{flex:1;overflow:auto;background:#d9d4c6;display:flex;justify-content:center}.pvw iframe{border:0;background:#000;width:100%;height:100%}
+#modal{position:fixed;inset:0;z-index:90;background:rgba(29,28,25,.6);display:grid;place-items:center;padding:20px}
+#modal[hidden]{display:none}
+.mbox{background:var(--cd);border-radius:20px;max-width:760px;width:100%;max-height:86vh;overflow:auto;padding:18px}
+.mh{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:6px}
+#toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,20px);background:var(--ink);color:var(--bg);padding:12px 20px;border-radius:14px;opacity:0;pointer-events:none;transition:.3s;z-index:100;max-width:92vw;text-align:center}
+#toast.show{opacity:1;transform:translate(-50%,0)}#toast.err{background:var(--er)}
+@media(max-width:1000px){.shell.split main{display:none}#pvp{position:fixed;inset:60px 8px 8px;height:auto;z-index:60}}
+@media(min-width:700px){.tabs{flex-wrap:wrap;overflow:visible}}
+@media(max-width:600px){.top .pill{padding:7px 12px;font-size:.66rem;white-space:nowrap}.top{padding:8px 12px;gap:6px}.acts{flex-wrap:nowrap;overflow-x:auto;width:100%;margin-left:0;padding-bottom:2px}}
+</style>
+</head>
+<body>
+<header class="top" id="top" hidden>
+ <b>Portfolio CMS</b><span class="chip" id="dirty" hidden>Unsaved changes</span><span class="chip" id="chk" hidden></span><a class="chip" id="dep" hidden target="_blank" rel="noopener"></a>
+ <div class="acts"><button class="pill" id="undo" title="Undo (Ctrl+Z)" disabled>Undo</button><button class="pill" id="redo" title="Redo (Ctrl+Y)" disabled>Redo</button><button class="pill" id="pvb">Preview</button><button class="pill" id="exp">Export</button><button class="pill" id="rl">Reload</button><button class="pill" id="out">Disconnect</button><button class="pill d" id="pub">Publish</button></div>
+</header>
+<div class="shell" id="shell">
+<main>
+ <section id="login" class="card">
+  <h1>Portfolio CMS</h1>
+  <p class="mu">Connect once, then edit every part of the site. Publishing saves everything to GitHub in one commit, and the live site updates in about 1-2 minutes.</p>
+  <label>GitHub repo (username/repo)<input id="repo" placeholder="bharat-sinha/bharat-sinha.github.io" autocomplete="off"></label>
+  <label>Branch<input id="br" value="main" autocomplete="off"></label>
+  <label>Access token<input id="tk" type="password" placeholder="github_pat_..." autocomplete="current-password"></label>
+  <label class="chk"><input type="checkbox" id="rem"><span>Remember token on this device (only on your personal device)</span></label>
+  <div class="row"><button class="pill d" id="go">Connect</button></div>
+  <details style="margin-top:18px"><summary style="cursor:pointer;font-weight:700">How to get a token (2 minutes)</summary>
+   <ol style="margin-top:10px">
+    <li>GitHub, then Settings, then Developer settings, then Personal access tokens, then Fine-grained tokens, then Generate new token.</li>
+    <li>Expiration: 90 days. Repository access: Only select repositories, choose this portfolio repo.</li>
+    <li>Repository permissions: <b>Contents = Read and write</b> (required). Optional: <b>Actions = Read-only</b> to see "Deploying / Live" status.</li>
+    <li>Generate, copy the token and paste it above.</li>
+   </ol></details>
+ </section>
+ <section id="app" hidden><div id="draftbar" class="note" hidden></div><nav class="tabs" id="tabs"></nav><div id="panel"></div></section>
+</main>
+<aside id="pvp" hidden>
+ <div class="pvh"><b>Live preview</b><button class="sm on" data-dev="100%">Desktop</button><button class="sm" data-dev="768px">Tablet</button><button class="sm" data-dev="390px">Mobile</button><button class="sm sp" id="pvr">Refresh</button><button class="sm" id="pvx">Close</button></div>
+ <div class="pvw"><iframe id="pvf" title="Site preview"></iframe></div>
+</aside>
+</div>
+<div id="modal" hidden role="dialog" aria-modal="true" aria-label="Choose an image"></div>
+<div id="toast" role="status"></div>
+<input type="file" id="impf" accept="application/json,.json" hidden>
+<script>
+(function(){
+'use strict';
+var $=function(s,c){return(c||document).querySelector(s)},$$=function(s,c){return Array.prototype.slice.call((c||document).querySelectorAll(s))};
+var POLL=window.__PADM_POLL||4000;
+var UN=[],RE=[],cur='',snapT,C=null,ORIG='',SHA=null,pend={},pmime={},keep={},delQ={},docPend={},dirty=false,tab='dash',openIdx={},cfg={},LIB=null,HIST=null,CK=[],pvOpen=false,dep=null,dtm,pvt,tcache={},modalCb=null;
+try{cfg=JSON.parse(localStorage.getItem('padm')||'{}')}catch(e){}
+$('#repo').value=cfg.repo||'';$('#br').value=cfg.br||'main';if(cfg.tk){$('#tk').value=cfg.tk;$('#rem').checked=true}
+var esc=function(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})};
+var tt;function toast(m,err){var t=$('#toast');t.textContent=m;t.className='show'+(err?' err':'');clearTimeout(tt);tt=setTimeout(function(){t.className=''},err?5200:3200)}
+function encPath(p){return p.split('/').map(encodeURIComponent).join('/')}
+function api(path,opt,as){opt=opt||{};opt.headers=Object.assign({Authorization:'Bearer '+cfg.tk,Accept:as==='blob'?'application/vnd.github.raw+json':'application/vnd.github+json','X-GitHub-Api-Version':'2022-11-28'},opt.headers||{});
+ if(opt.body&&typeof opt.body!=='string')opt.body=JSON.stringify(opt.body);
+ return fetch('https://api.github.com/repos/'+cfg.repo+path,opt).then(function(r){if(!r.ok){var e=new Error('HTTP '+r.status);e.status=r.status;throw e}return as==='blob'?r.blob():r.json()})}
+function dec(b){return decodeURIComponent(escape(atob(b.replace(/\s/g,''))))}
+function errMsg(e,what){var s=e.status;return s===401?'Token is invalid or expired. Create a new one.':s===403?'Token has no write access. It needs Contents: Read and write on this repo.':s===404?(what==='load'?'content.json not found. Check repo name, branch, and that content.json is in the repo root. Also make sure the token has access to THIS repo (a fine-grained token gives 404 when the repo is not in its list).':'Repo or path not found. Check repo name and branch, and that the token has access to this repo.'):(s===409||s===422)?'content.json changed on GitHub meanwhile. Click Reload, then redo your edit.':'Network error. Check your internet and try again.'}
+function get(p){return p.split('.').reduce(function(o,k){return o==null?o:o[k]},C)}
+function setP(p,v){var a=p.split('.'),o=C;for(var i=0;i<a.length-1;i++)o=o[a[i]];o[a[a.length-1]]=v}
+function normalize(o){['profile','social','metrics'].forEach(function(k){o[k]=o[k]||{}});['projects','skills','skillLevels','experience','education','faq','hallway'].forEach(function(k){o[k]=o[k]||[]});o.cvFile=o.cvFile||'Bharat Sinha CV.pdf';return o}
+function slugOf(t,i){return String(t||'').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'')||('project-'+(i+1))}
+function trim(t,n){t=String(t).replace(/\s+/g,' ').trim();if(t.length<=n)return t;return t.slice(0,n).replace(/\s+\S*$/,'').replace(/[,;:]+$/,'')+'...'}
+function when(d){try{return new Date(d).toLocaleString()}catch(e){return d||''}}
+addEventListener('beforeunload',function(e){if(dirty){e.preventDefault();e.returnValue=''}});
+
+/* ---------- derived values: site URL, SERP preview (mirrors scripts/build.py) ---------- */
+function siteUrl(){if(C&&C.siteUrl)return C.siteUrl;var r=(cfg.repo||'').split('/');if(r.length<2)return '';var o=r[0].toLowerCase();return r[1].toLowerCase()===o+'.github.io'?'https://'+o+'.github.io/':'https://'+o+'.github.io/'+r[1]+'/'}
+function topSkills(n){var flat=[];C.skills.forEach(function(g){(g.items||[]).forEach(function(x){flat.push(x)})});var out=['Advanced Excel','Excel','SQL','Power BI','Python','Tableau','Power Query'].filter(function(x){return flat.indexOf(x)>-1}).slice(0,n);flat.forEach(function(x){if(out.length<n&&out.indexOf(x)<0)out.push(x)});return out}
+function serp(){var P=C.profile,sk=topSkills(4),list=sk.length>1?sk.slice(0,-1).join(', ')+' and '+sk[sk.length-1]:sk.join('');
+ return{title:(P.role||'')+' in '+(P.location||'')+' | '+(P.name||'')+' Portfolio',desc:trim((P.name||'')+' is '+(/^[aeiou]/i.test(P.role||'')?'an':'a')+' '+(P.role||'')+' in '+(P.location||'')+' skilled in '+list+'. Explore data analytics case studies, projects and experience.',158),url:siteUrl()}}
+
+/* ---------- health checks ---------- */
+function checks(){var out=[],P=C.profile;function add(l,m,t,i){out.push({lvl:l,msg:m,tab:t,idx:i})}
+ ['name','role','location','email'].forEach(function(k){if(!String(P[k]||'').trim())add('err','Profile: "'+k+'" is empty','profile')});
+ if(P.email&&!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(P.email))add('err','Profile: the email address looks invalid','profile');
+ var hl=String(P.headline||'').length;if(hl<20||hl>90)add('warn','Hero headline is '+hl+' characters (aim for 20-90)','profile');
+ var sm=String(P.summary||'').length;if(sm<150)add('warn','About summary is short ('+sm+' characters, aim for 150+)','profile');
+ [C.social.linkedin,C.social.github,C.social.leetcode,C.siteUrl].forEach(function(u){if(u&&!/^https?:\/\//i.test(u))add('err','Links must start with https:// ('+u+')',u===C.siteUrl?'seo':'profile')});
+ var seen={};
+ C.projects.forEach(function(p,i){var n=i+1;if(!String(p.title||'').trim()){add('err','Project '+n+' needs a title','projects',i);return}
+  var s=slugOf(p.title,i);if(seen[s])add('err','Projects '+seen[s]+' and '+n+' have the same title, so their page address would clash','projects',i);seen[s]=n;
+  ['problem','approach','impact'].forEach(function(k){if(!String(p[k]||'').trim())add('warn','Project "'+p.title+'": "'+k+'" is empty','projects',i)});
+  if(!(p.tags||[]).length)add('warn','Project "'+p.title+'" has no tool tags','projects',i);
+  if(!p.image)add('warn','Project "'+p.title+'" has no screenshot','projects',i);
+  else{if(String(p.imageAlt||'').length<40)add('warn','Project "'+p.title+'": add a screenshot description (alt text, 40+ characters)','projects',i);
+   if(LIB&&!LIB.some(function(f){return f.path===p.image})&&!pend[p.image])add('warn','Project "'+p.title+'": image file '+p.image+' was not found in images/','projects',i)}
+  [p.repo,p.live].forEach(function(u){if(u&&!/^https?:\/\//i.test(u))add('err','Links must start with https:// ('+u+')','projects',i)});
+  if(!p.repo&&!p.live)add('warn','Project "'+p.title+'" has no GitHub or live link','projects',i)});
+ C.skillLevels.forEach(function(x,i){if(!String(x.name||'').trim())add('warn','Skill level '+(i+1)+' has no name','levels',i)});
+ C.hallway.forEach(function(x,i){if(!String(x.big||'').trim())add('warn','Hallway item '+(i+1)+' has no big number','hallway',i)});
+ C.faq.forEach(function(x,i){if(!String(x.q||'').trim()||!String(x.a||'').trim())add('warn','FAQ '+(i+1)+' needs both a question and an answer','faq',i)});
+ var S=serp();if(S.title.length>60)add('warn','Google title is '+S.title.length+' characters (about 60 fit)','seo');
+ return out}
+function updateChk(){if(!C)return;var c=checks(),e=c.filter(function(x){return x.lvl==='err'}).length,w=c.length-e,el=$('#chk');el.hidden=false;
+ el.className='chip '+(e?'er':w?'wn':'ok');el.textContent=e?e+' error'+(e>1?'s':'')+(w?', '+w+' warning'+(w>1?'s':''):''):w?w+' warning'+(w>1?'s':''):'All checks passed'}
+function jump(c){tab=c.tab;openIdx={};if(c.idx!=null)openIdx[c.tab==='levels'?'skillLevels':c.tab]=c.idx;render();ensure();var el=$('#panel details[open]')||$('#panel');el.scrollIntoView({block:'center'})}
+function mark(on){if(on){dirty=true;saveDraft();schedPv();schedSnap()}$('#dirty').hidden=!dirty;updateChk()}
+/* ---------- undo / redo (whole-content snapshots, grouped by 0.6s of typing) ---------- */
+function schedSnap(){clearTimeout(snapT);snapT=setTimeout(flushSnap,600)}
+function flushSnap(){clearTimeout(snapT);if(!C)return;var s=JSON.stringify(C);if(s!==cur){UN.push(cur);if(UN.length>80)UN.shift();RE=[];cur=s}updUR()}
+function resetUR(){clearTimeout(snapT);UN=[];RE=[];cur=C?JSON.stringify(C):'';updUR()}
+function updUR(){$('#undo').disabled=!UN.length;$('#redo').disabled=!RE.length}
+function afterUR(){dirty=cur!==ORIG;saveDraft();schedPv();render();updUR()}
+function undo(){flushSnap();if(!UN.length)return;RE.push(cur);cur=UN.pop();C=JSON.parse(cur);afterUR();toast('Undone')}
+function redo(){flushSnap();if(!RE.length)return;UN.push(cur);cur=RE.pop();C=JSON.parse(cur);afterUR();toast('Redone')}
+
+/* ---------- drafts (autosave) ---------- */
+function dkey(){return 'padm-draft:'+cfg.repo+'@'+cfg.br}
+function saveDraft(){clearTimeout(dtm);dtm=setTimeout(function(){try{localStorage.setItem(dkey(),JSON.stringify({t:Date.now(),C:C}))}catch(e){}},600)}
+function clearDraft(){clearTimeout(dtm);try{localStorage.removeItem(dkey())}catch(e){}$('#draftbar').hidden=true}
+function checkDraft(){var d=null;try{d=JSON.parse(localStorage.getItem(dkey())||'null')}catch(e){}
+ var bar=$('#draftbar');if(d&&d.C&&JSON.stringify(normalize(d.C))!==ORIG){bar.hidden=false;bar.innerHTML='<b>Unsaved draft found</b> from '+esc(when(d.t))+'. Images that were added but never published are not part of drafts.<div class="row"><button class="sm" data-x="draftok">Restore draft</button><button class="sm" data-x="draftno">Discard draft</button></div>'}else bar.hidden=true}
+
+/* ---------- connect / load ---------- */
+function load(){return api('/contents/content.json?ref='+encodeURIComponent(cfg.br)).then(function(j){
+ SHA=j.sha;C=normalize(JSON.parse(dec(j.content)));ORIG=JSON.stringify(C);resetUR();pend={};pmime={};keep={};delQ={};docPend={};dirty=false;openIdx={};LIB=null;HIST=null;tab='dash';
+ $('#login').hidden=true;$('#app').hidden=false;$('#top').hidden=false;checkDraft();render();ensure();toast('Loaded content.json')
+}).catch(function(e){toast(errMsg(e,'load'),1)})}
+$('#go').onclick=function(){var tk=$('#tk').value.trim(),repo=$('#repo').value.trim().replace(/^https?:\/\/github\.com\//,'').replace(/\.git$/,'').replace(/\/$/,''),br=$('#br').value.trim()||'main';
+ if(!tk||!/^[\w.-]+\/[\w.-]+$/.test(repo))return toast('Enter the token and repo as username/repo',1);
+ cfg={tk:tk,repo:repo,br:br};var keepc={repo:repo,br:br};if($('#rem').checked)keepc.tk=tk;localStorage.setItem('padm',JSON.stringify(keepc));load()};
+$('#out').onclick=function(){if(dirty&&!confirm('Discard unsaved changes?'))return;C=null;dirty=false;cfg.tk='';$('#tk').value='';localStorage.removeItem('padm');closePv();$('#app').hidden=true;$('#top').hidden=true;$('#login').hidden=false};
+$('#rl').onclick=function(){if(dirty&&!confirm('Discard unsaved changes and reload from GitHub?'))return;load()};
+$('#exp').onclick=function(){var a=document.createElement('a');a.href=URL.createObjectURL(new Blob([JSON.stringify(C,null,2)],{type:'application/json'}));a.download='content.json';a.click();setTimeout(function(){URL.revokeObjectURL(a.href)},1000)};
+$('#impf').onchange=function(e){var f=e.target.files[0];if(!f)return;var r=new FileReader();r.onload=function(){try{var o=JSON.parse(r.result);if(!o||typeof o!=='object'||!o.profile||!Array.isArray(o.projects))throw 0;C=normalize(o);mark(true);render();toast('Imported. Review it, then Publish.')}catch(x){toast('That file is not a valid content.json',1)}};r.readAsText(f);e.target.value=''};
+
+/* ---------- form builders ---------- */
+function F(label,path,kind,rows,sum){var v=get(path);if(kind==='list')v=(v||[]).join(', ');if(kind==='lines')v=(v||[]).join('\n');if(v==null)v='';
+ var a='data-p="'+path+'" data-k="'+(kind||'')+'"'+(sum?' data-sum="1"':'');
+ if(kind==='lvl'){var L=['learning','working knowledge','proficient','strong','expert'];if(v&&L.indexOf(v)<0)L.push(v);return'<label>'+label+'<select '+a+'>'+L.map(function(o){return'<option'+(o===v?' selected':'')+'>'+o+'</option>'}).join('')+'</select></label>'}
+ if(kind==='icon'){return'<label>'+label+'<select '+a+'>'+['chart','db','code','brief'].map(function(o){return'<option'+(o===v?' selected':'')+'>'+o+'</option>'}).join('')+'</select></label>'}
+ return'<label>'+label+(rows?'<textarea '+a+' rows="'+rows+'">'+esc(v)+'</textarea>':'<input '+a+(kind==='num'?' type="number"':'')+' value="'+esc(v)+'">')+'</label>'}
+function box(t,fs){return'<div class="card"><h2>'+t+'</h2>'+fs.join('')+'</div>'}
+function thumb(p,cls){return'<img data-lib="'+esc(p)+'" alt="'+esc(p.split('/').pop())+'"'+(cls?' class="'+cls+'"':'')+'>'}
+function imgRow(p,i){var pick=function(f){return' <button class="sm" data-x="pick" data-f="'+f+'" data-i="'+i+'">Library</button>'};
+ return'<div class="imgrow">'+(p.image?thumb(p.image):'<div class="ph">No image</div>')+'<div><label class="file">Upload image<input type="file" accept="image/*" data-img="'+i+'" hidden></label>'+(p.image?'<button class="sm" data-a="rmimg" data-i="'+i+'">Remove</button>':'')+'<br><small>Creates 3 sizes automatically: 1600px, 960px and a 1200x630 social card</small></div></div>'+
+  F('Main image path (1600px)','projects.'+i+'.image')+pick('image')+F('Small image path (960px, used on phones)','projects.'+i+'.imageSmall')+pick('imageSmall')+F('Social share image path (1200x630)','projects.'+i+'.imageOg')+pick('imageOg')}
+function LT(key,label,title,fields,extra){
+ return C[key].map(function(it,i){return'<details class="card"'+(openIdx[key]===i?' open':'')+'><summary>'+esc(title(it)||'(untitled)')+'</summary>'+
+  fields.map(function(f){return F(f[0],key+'.'+i+'.'+f[1],f[2],f[3],f[4])}).join('')+(extra?extra(it,i):'')+
+  '<div class="row"><button class="sm" data-a="up" data-k="'+key+'" data-i="'+i+'">&uarr; Up</button><button class="sm" data-a="dn" data-k="'+key+'" data-i="'+i+'">&darr; Down</button><button class="sm del" data-a="del" data-k="'+key+'" data-i="'+i+'">Delete</button></div></details>'}).join('')+
+  '<button class="pill d" data-a="add" data-k="'+key+'">+ Add '+label+'</button>'}
+var BLANK={hallway:function(){return{big:'',label:'',sub:''}},skillLevels:function(){return{name:'',level:'working knowledge',note:''}},projects:function(){return{title:'',subtitle:'',year:String(new Date().getFullYear()),tags:[],problem:'',approach:'',impact:'',highlights:[],repo:'',live:'',image:'',imageSmall:'',imageOg:'',imageAlt:''}},skills:function(){return{title:'',icon:'chart',items:[]}},experience:function(){return{role:'',org:'',period:'',bullets:[]}},education:function(){return{title:'',sub:''}},faq:function(){return{q:'',a:''}}};
+
+/* ---------- views ---------- */
+function cnt(len,min,max){var ok=len>=min&&len<=max;return'<span class="cnt '+(ok?'ok':'wn')+'">'+len+' characters (aim for '+min+'-'+max+')</span>'}
+var VIEW={
+ dash:function(){CK=checks();var e=CK.filter(function(x){return x.lvl==='err'}),L=C.projects,last=HIST&&HIST[0];
+  var h='<div class="card"><h2>Overview</h2><div class="stats"><div class="stat"><b>'+L.length+'</b><small>Projects</small></div><div class="stat"><b>'+C.skillLevels.length+'</b><small>Skill levels</small></div><div class="stat"><b>'+C.faq.length+'</b><small>FAQ items</small></div><div class="stat"><b>'+C.experience.length+'</b><small>Experience</small></div></div>'+
+   '<p class="mu" style="margin-top:12px">Connected to <b>'+esc(cfg.repo)+'</b> ('+esc(cfg.br)+'). '+(last?'Last content change: <b>'+esc(when(last.date))+'</b> by '+esc(last.who)+'.':'')+'</p>'+
+   '<div class="row">'+(siteUrl()?'<a class="sm" style="text-decoration:none;color:inherit" href="'+esc(siteUrl())+'" target="_blank" rel="noopener">Open live site</a>':'')+'<a class="sm" style="text-decoration:none;color:inherit" href="https://github.com/'+esc(cfg.repo)+'/actions" target="_blank" rel="noopener">Deploys (Actions)</a><button class="sm" data-x="imp">Import JSON</button><button class="sm" data-x="openpv">Open preview</button></div></div>';
+  h+='<div class="card"><h2>Health checks</h2>'+(CK.length?CK.map(function(c,n){return'<div class="ck '+c.lvl+'"><i>'+(c.lvl==='err'?'!':'?')+'</i><button class="lnk" data-x="jump" data-n="'+n+'">'+esc(c.msg)+'</button></div>'}).join(''):'<p class="mu">Everything looks good. Nothing to fix.</p>')+'</div>';
+  var S=serp();return h+'<div class="card"><h2>How Google will show your home page</h2><div class="serp"><div class="su">'+esc(S.url)+'</div><div class="st">'+esc(S.title)+'</div><div class="sd">'+esc(S.desc)+'</div></div></div>'},
+ profile:function(){return box('Hero and text',[F('Name','profile.name'),F('Role','profile.role'),F('Location','profile.location'),F('Email (also receives the contact form)','profile.email'),F('Hero small label','profile.eyebrow'),F('Hero headline','profile.headline','',2),F('Hero sub text','profile.sub','',3),F('Scroll statement','profile.statement','',4),F('About summary','profile.summary','',6),F('Contact text','profile.contactLead','',3),F('Languages','languages')])+
+  box('Social links',[F('LinkedIn URL','social.linkedin'),F('GitHub URL','social.github'),F('LeetCode URL','social.leetcode')])+
+  box('Hero numbers',[F('Ticket number','metrics.ticketValue','num'),F('Ticket prefix (e.g. Rs. )','metrics.ticketPrefix'),F('Ticket suffix (e.g. M+)','metrics.ticketSuffix'),F('Ticket label','metrics.ticketLabel'),F('Circle number','metrics.circleValue','num'),F('Circle suffix','metrics.circleSuffix'),F('Circle label','metrics.circleLabel')])},
+ projects:function(){return LT('projects','project',function(p){return p.title},[['Title','title','',0,1],['Subtitle','subtitle'],['Year','year'],['Tags (comma separated)','tags','list'],['Problem','problem','',3],['Approach','approach','',3],['Impact','impact','',3],['Key numbers (one per line, shown on the case-study page)','highlights','lines',4],['GitHub repo URL','repo'],['Live demo URL (optional)','live'],['Screenshot description (alt text, helps SEO and accessibility)','imageAlt','',2]],imgRow)},
+ hallway:function(){return LT('hallway','hallway number',function(x){return x.big},[['Big number or word (flies past the camera)','big','',0,1],['Label (small caps line)','label'],['Small note below','sub']])},
+ levels:function(){return LT('skillLevels','skill level',function(x){return x.name},[['Skill name','name','',0,1],['Level (controls the bar)','level','lvl'],['Short description','note','',2]])},
+ skills:function(){return LT('skills','skill group',function(g){return g.title},[['Group title','title','',0,1],['Icon','icon','icon'],['Items (comma separated)','items','list',3]])},
+ experience:function(){return LT('experience','experience',function(x){return x.role},[['Role','role','',0,1],['Organisation','org'],['Period','period'],['Bullet points (one per line)','bullets','lines',6]])},
+ education:function(){return LT('education','education item',function(x){return x.title},[['Title','title','',0,1],['Details','sub']])},
+ faq:function(){return LT('faq','question',function(x){return x.q},[['Question','q','',0,1],['Answer','a','',4]])},
+ seo:function(){var S=serp();return'<div class="card"><h2>Google preview</h2><div class="serp"><div class="su">'+esc(S.url)+'</div><div class="st">'+esc(S.title)+'</div><div class="sd">'+esc(S.desc)+'</div></div><p style="margin-top:10px">Title: '+cnt(S.title.length,25,60)+'<br>Description: '+cnt(S.desc.length,70,160)+'</p><p class="mu">Built automatically from your name, role, location and skill tags (Profile and Skill tags tabs).</p></div>'+
+  box('Site address and verification',[F('Site URL (your live address, e.g. https://username.github.io/ , auto-detected if left empty)','siteUrl'),F('Google Search Console verification code (content value only)','googleVerification'),F('Bing Webmaster verification code (content value only)','bingVerification')])},
+ media:function(){var u=used(),items=[];(LIB||[]).forEach(function(f){items.push({path:f.path,name:f.name,size:f.size,old:1})});Object.keys(pend).forEach(function(p){if(!items.some(function(x){return x.path===p}))items.push({path:p,name:p.split('/').pop(),size:Math.round(pend[p].length*.75),nw:1})});
+  var tiles=items.map(function(f){var gone=!!delQ[f.path],b=gone?'<span class="badge gone">Delete on publish</span>':f.nw?'<span class="badge new">New, not published</span>':u[f.path]?'<span class="badge use">In use</span>':'<span class="badge">Unused</span>';
+   return'<div class="tile">'+thumb(f.path)+'<div class="tb"><b>'+esc(f.name)+'</b><span class="mu">'+Math.max(1,Math.round(f.size/1024))+' KB</span>'+b+'<div class="row"><button class="sm" data-x="copy" data-path="'+esc(f.path)+'">Copy path</button>'+(gone?'<button class="sm" data-x="libundo" data-path="'+esc(f.path)+'">Undo</button>':'<button class="sm del" data-x="libdel" data-path="'+esc(f.path)+'">Delete</button>')+'</div></div></div>'}).join('');
+  var docs=function(key,label,name,accept,hint){return'<div class="imgrow" style="align-items:flex-start"><div><b>'+label+'</b><br><small class="mu">'+esc(name)+(docPend[key]?' &mdash; <b>new file ready, Publish to save</b>':'')+'</small><br><small class="mu">'+hint+'</small><br><label class="file" style="margin-top:6px">Replace file<input type="file" accept="'+accept+'" data-doc="'+key+'" hidden></label></div></div>'};
+  return'<div class="card"><h2>Images</h2><p class="mu">Everything in the <b>images/</b> folder of your repo. Uploads and deletions are saved together with the next Publish.</p><div class="row"><label class="file">Upload images<input type="file" id="libup" accept="image/*" multiple hidden></label><label class="chk"><input type="checkbox" id="opt" checked><span>Optimize (resize to 1600px, JPEG)</span></label><button class="sm" data-x="librefresh">Refresh</button></div>'+(LIB?(tiles?'<div class="lib">'+tiles+'</div>':'<p class="mu" style="margin-top:12px">No images yet.</p>'):'<p class="mu" style="margin-top:12px">Loading images...</p>')+'</div>'+
+  box('Documents',[F('CV file name (the "Download CV" buttons use this file)','cvFile'),docs('cv','CV (PDF)',C.cvFile,'application/pdf,.pdf','Replaces the file named above in the repo root.'),docs('og','Social share image','og-image.png','image/*','Any image; it is cropped to 1200x630 PNG. Shown when the home page link is shared.')])},
+ history:function(){return'<div class="card"><h2>Version history</h2><p class="mu">Every Publish is a commit on GitHub. Load an older version as a draft, review it, then Publish to restore it.</p>'+(HIST===null?'<p class="mu">Loading history...</p>':HIST.length?HIST.map(function(h,n){return'<div class="hist"><div><b>'+esc(h.msg||'(no message)')+'</b><br><small class="mu">'+esc(when(h.date))+' &middot; '+esc(h.who)+' &middot; '+esc(h.sha.slice(0,7))+(n===0?' &middot; <b>latest</b>':'')+'</small><div id="hd'+n+'"></div></div><div class="row" style="margin:0"><button class="sm" data-x="histcmp" data-n="'+n+'">Compare</button>'+(n?'<button class="sm" data-x="histload" data-n="'+n+'">Load as draft</button>':'')+'</div></div>'}).join(''):'<p class="mu">No history available.</p>')+'</div>'}};
+var TABS=[['dash','Overview'],['profile','Profile'],['projects','Projects'],['levels','Skill levels'],['hallway','Hallway'],['skills','Skill tags'],['experience','Experience'],['education','Education'],['faq','FAQ'],['media','Media'],['seo','SEO'],['history','History']];
+function render(){$('#tabs').innerHTML=TABS.map(function(t){return'<button class="tab'+(t[0]===tab?' on':'')+'" data-tab="'+t[0]+'">'+t[1]+'</button>'}).join('');$('#panel').innerHTML=VIEW[tab]();hydrate($('#panel'));mark()}
+function used(){var u={};C.projects.forEach(function(p){['image','imageSmall','imageOg'].forEach(function(k){if(p[k])u[p[k]]=1})});return u}
+
+/* ---------- images / media ---------- */
+function hydrate(root){$$('img[data-lib]',root).forEach(function(im){var p=im.getAttribute('data-lib');if(!p||im.getAttribute('src'))return;
+ if(pend[p]){im.src='data:'+(pmime[p]||'image/jpeg')+';base64,'+pend[p];return}
+ if(tcache[p]){im.src=tcache[p];return}
+ api('/contents/'+encPath(p)+'?ref='+encodeURIComponent(cfg.br),null,'blob').then(function(b){tcache[p]=URL.createObjectURL(b);im.src=tcache[p]}).catch(function(){im.alt='no preview'})})}
+function loadLib(){return api('/contents/images?ref='+encodeURIComponent(cfg.br)).then(function(a){LIB=(Array.isArray(a)?a:[]).filter(function(f){return f.type==='file'&&/\.(jpe?g|png|webp|gif|svg|avif)$/i.test(f.name)}).map(function(f){return{name:f.name,path:f.path,size:f.size,sha:f.sha}});return LIB}).catch(function(e){if(e.status===404){LIB=[];return LIB}throw e})}
+function loadHist(){return api('/commits?path=content.json&sha='+encodeURIComponent(cfg.br)+'&per_page=20').then(function(a){HIST=(Array.isArray(a)?a:[]).map(function(c){var m=c.commit||{},au=m.author||{};return{sha:c.sha,msg:String(m.message||'').split('\n')[0],who:au.name||'',date:au.date||''}});return HIST}).catch(function(){HIST=[]})}
+function ensure(){if(!C)return;if(tab==='media'&&!LIB)loadLib().then(function(){if(tab==='media')render()}).catch(function(e){LIB=[];toast(errMsg(e),1);if(tab==='media')render()});
+ if((tab==='history'||tab==='dash')&&HIST===null)loadHist().then(function(){if(tab==='history'||tab==='dash')render()})}
+function readFile(f){return new Promise(function(res,rej){var r=new FileReader();r.onload=function(){res(r.result)};r.onerror=rej;r.readAsDataURL(f)})}
+function loadImg(src){return new Promise(function(res,rej){var im=new Image();im.onload=function(){res(im)};im.onerror=rej;im.src=src})}
+function shrink(im,maxW){var w=Math.min(maxW,im.width),h=Math.round(im.height*w/im.width),c=document.createElement('canvas');c.width=w;c.height=h;var x=c.getContext('2d');x.fillStyle='#fff';x.fillRect(0,0,w,h);x.drawImage(im,0,0,w,h);return c.toDataURL('image/jpeg',.88).split(',')[1]}
+function cover(im,W,H,type){var c=document.createElement('canvas');c.width=W;c.height=H;var x=c.getContext('2d'),s=Math.max(W/im.width,H/im.height),w=im.width*s,h=im.height*s;x.fillStyle='#fff';x.fillRect(0,0,W,H);x.drawImage(im,(W-w)/2,(H-h)/2,w,h);return c.toDataURL(type||'image/jpeg',.88).split(',')[1]}
+function slug(t){return String(t||'').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'').slice(0,40)}
+function uid(){return Date.now().toString(36)+Math.random().toString(36).slice(2,5)}
+function projUpload(i,f){readFile(f).then(loadImg).then(function(im){var p=C.projects[i],base='images/'+(slug(p.title)||'project')+'-'+uid();
+ pend[base+'.jpg']=shrink(im,1600);p.image=base+'.jpg';
+ if(im.width>960){pend[base+'-960.jpg']=shrink(im,960);p.imageSmall=base+'-960.jpg'}else p.imageSmall='';
+ pend[base+'-og.jpg']=cover(im,1200,630);p.imageOg=base+'-og.jpg';
+ ['.jpg','-960.jpg','-og.jpg'].forEach(function(s){pmime[base+s]='image/jpeg'});
+ openIdx.projects=i;mark(true);render();toast('Image added (3 sizes). Publish to save it.')}).catch(function(){toast('Could not read that image',1)})}
+function libUpload(files){var optimize=$('#opt')?$('#opt').checked:true;
+ Promise.all(files.map(function(f){var base=slug(f.name.replace(/\.[^.]+$/,''))||'image',raster=/^image\/(jpeg|png|webp)$/.test(f.type);
+  if(optimize&&raster)return readFile(f).then(loadImg).then(function(im){var p='images/'+base+'-'+uid()+'.jpg';pend[p]=shrink(im,1600);pmime[p]='image/jpeg';keep[p]=1});
+  var ext=((f.name.match(/\.([a-z0-9]+)$/i)||[])[1]||'bin').toLowerCase();return readFile(f).then(function(d){var p='images/'+base+'-'+uid()+'.'+ext;pend[p]=d.split(',')[1];pmime[p]=f.type||'application/octet-stream';keep[p]=1})}))
+ .then(function(){mark(true);render();toast(files.length+' image'+(files.length>1?'s':'')+' added. Publish to save.')}).catch(function(){toast('Could not read an image',1)})}
+function docUpload(key,f){if(key==='cv'){readFile(f).then(function(d){docPend.cv={name:C.cvFile,b64:d.split(',')[1]};mark(true);render();toast('New CV ready. Publish to save it.')})}
+ else readFile(f).then(loadImg).then(function(im){docPend.og={name:'og-image.png',b64:cover(im,1200,630,'image/png')};mark(true);render();toast('New social image ready. Publish to save it.')}).catch(function(){toast('Could not read that image',1)})}
+function openPicker(cb){modalCb=cb;var go=function(){var u=used();$('#modal').innerHTML='<div class="mbox"><div class="mh"><b>Choose an image</b><button class="sm" data-x="mclose">Close</button></div><div class="lib">'+((LIB||[]).map(function(f){return{path:f.path,name:f.name}}).concat(Object.keys(pend).filter(function(p){return !(LIB||[]).some(function(f){return f.path===p})}).map(function(p){return{path:p,name:p.split('/').pop()}}))).filter(function(f){return !delQ[f.path]}).map(function(f){return'<div class="tile">'+thumb(f.path)+'<div class="tb"><b>'+esc(f.name)+'</b><button class="sm" data-x="mpick" data-path="'+esc(f.path)+'">Select</button></div></div>'}).join('')+'</div></div>';$('#modal').hidden=false;hydrate($('#modal'))};
+ if(LIB)go();else loadLib().then(go).catch(function(e){toast(errMsg(e),1)})}
+
+/* ---------- history ---------- */
+function version(sha){return api('/contents/content.json?ref='+encodeURIComponent(sha)).then(function(j){return normalize(JSON.parse(dec(j.content)))})}
+function diffSummary(a,b){var out=[];Object.keys(Object.assign({},a,b)).forEach(function(k){var x=a[k],y=b[k];if(JSON.stringify(x)===JSON.stringify(y))return;
+ if(Array.isArray(x)||Array.isArray(y)){x=x||[];y=y||[];var ch=0,n=Math.min(x.length,y.length),s=[];for(var i=0;i<n;i++)if(JSON.stringify(x[i])!==JSON.stringify(y[i]))ch++;if(y.length>x.length)s.push('+'+(y.length-x.length)+' added');if(y.length<x.length)s.push((x.length-y.length)+' removed');if(ch)s.push(ch+' edited');out.push(k+': '+s.join(', '))}
+ else if((x&&typeof x==='object')||(y&&typeof y==='object')){var ks=Object.keys(Object.assign({},x,y)).filter(function(q){return JSON.stringify((x||{})[q])!==JSON.stringify((y||{})[q])});out.push(k+': '+ks.join(', '))}
+ else out.push(k+' changed')});return out}
+
+/* ---------- live preview ---------- */
+function pvURL(){return 'index.html?preview=1&t='+Date.now()}
+function openPv(){pvOpen=true;$('#pvp').hidden=false;$('#shell').classList.add('split');$('#pvf').src=pvURL()}
+function closePv(){pvOpen=false;$('#pvp').hidden=true;$('#shell').classList.remove('split');$('#pvf').removeAttribute('src')}
+function sendPv(){var imgs={};Object.keys(pend).forEach(function(p){imgs[p]='data:'+(pmime[p]||'image/jpeg')+';base64,'+pend[p]});try{$('#pvf').contentWindow.postMessage({type:'cms-preview',content:C,images:imgs},'*')}catch(x){}}
+function schedPv(){if(!pvOpen)return;clearTimeout(pvt);pvt=setTimeout(function(){$('#pvf').src=pvURL()},1300)}
+addEventListener('message',function(e){var m=e.data;if(!pvOpen||!m||m.type!=='cms-preview-ready'||e.source!==$('#pvf').contentWindow)return;sendPv()});
+$('#pvb').onclick=function(){pvOpen?closePv():openPv()};$('#pvx').onclick=closePv;$('#pvr').onclick=function(){$('#pvf').src=pvURL()};
+$$('[data-dev]').forEach(function(b){b.onclick=function(){$$('[data-dev]').forEach(function(x){x.classList.remove('on')});b.classList.add('on');var w=b.dataset.dev;$('#pvf').style.width=w;$('#pvf').style.maxWidth='100%'}});
+
+/* ---------- events ---------- */
+$('#panel').addEventListener('input',function(e){var t=e.target,p=t.dataset.p;if(!p)return;var v=t.value,k=t.dataset.k;
+ if(k==='list')v=v.split(',').map(function(s){return s.trim()}).filter(Boolean);else if(k==='lines')v=v.split('\n').map(function(s){return s.trim()}).filter(Boolean);else if(k==='num')v=v===''?0:Number(v);
+ setP(p,v);if(t.dataset.sum){t.closest('details').querySelector('summary').textContent=v||'(untitled)'}mark(true)});
+$('#panel').addEventListener('change',function(e){var t=e.target,f=t.files&&t.files[0];if(!f)return;
+ if(t.dataset.img!=null)projUpload(+t.dataset.img,f);else if(t.dataset.doc)docUpload(t.dataset.doc,f);else if(t.id==='libup'){libUpload(Array.prototype.slice.call(t.files));t.value=''}});
+function act(a,k,i){var L=C[k];if(a==='add'){L.push(BLANK[k]());openIdx[k]=L.length-1}
+ else if(a==='del'){if(!confirm('Delete this item?'))return;L.splice(i,1);delete openIdx[k]}
+ else if(a==='up'&&i>0){var t=L[i];L[i]=L[i-1];L[i-1]=t;openIdx[k]=i-1}
+ else if(a==='dn'&&i<L.length-1){var t2=L[i];L[i]=L[i+1];L[i+1]=t2;openIdx[k]=i+1}
+ else return;mark(true);render()}
+document.addEventListener('click',function(e){var t=e.target.closest('[data-tab],[data-a],[data-x]');if(!t)return;var d=t.dataset;
+ if(d.tab){tab=d.tab;openIdx={};render();ensure();return}
+ if(d.a==='rmimg'){var p=C.projects[+d.i];p.image='';p.imageSmall='';p.imageOg='';openIdx.projects=+d.i;mark(true);render();return}
+ if(d.a){act(d.a,d.k,+d.i);return}
+ var x=d.x;
+ if(x==='jump')jump(CK[+d.n]);
+ else if(x==='imp')$('#impf').click();
+ else if(x==='openpv')openPv();
+ else if(x==='draftok'){var dr=null;try{dr=JSON.parse(localStorage.getItem(dkey()))}catch(er){}if(dr&&dr.C){C=normalize(dr.C);mark(true);render();toast('Draft restored')}$('#draftbar').hidden=true}
+ else if(x==='draftno'){clearDraft();toast('Draft discarded')}
+ else if(x==='pick')openPicker(function(path){var p=C.projects[+d.i];p[d.f]=path;openIdx.projects=+d.i;mark(true);render()});
+ else if(x==='mpick'){var cb=modalCb;$('#modal').hidden=true;modalCb=null;if(cb)cb(d.path)}
+ else if(x==='mclose'){$('#modal').hidden=true;modalCb=null}
+ else if(x==='copy'){try{navigator.clipboard.writeText(d.path)}catch(er){}toast('Copied: '+d.path)}
+ else if(x==='libdel'){var u=used();if(u[d.path]&&!confirm('This image is used by a project. Delete it anyway?'))return;if(pend[d.path]){delete pend[d.path];delete keep[d.path]}else{var f=(LIB||[]).filter(function(y){return y.path===d.path})[0];if(f)delQ[d.path]=f.sha}mark(true);render()}
+ else if(x==='libundo'){delete delQ[d.path];mark(true);render()}
+ else if(x==='librefresh'){LIB=null;render();ensure()}
+ else if(x==='histcmp'){var h=HIST[+d.n],box=$('#hd'+d.n);box.innerHTML='<small class="mu">Comparing...</small>';version(h.sha).then(function(v){var s=diffSummary(v,C);box.innerHTML=s.length?'<ul class="diff"><li>'+s.map(esc).join('</li><li>')+'</li></ul><small class="mu">(changes needed to go from that version to your editor)</small>':'<small class="mu">Identical to your editor.</small>'}).catch(function(er){box.innerHTML='<small class="mu">'+esc(errMsg(er))+'</small>'})}
+ else if(x==='histload'){var h2=HIST[+d.n];if(dirty&&!confirm('Replace your unsaved edits with this older version?'))return;version(h2.sha).then(function(v){C=v;tab='dash';mark(true);render();toast('Older version loaded as a draft. Review it and click Publish to restore it.')}).catch(function(er){toast(errMsg(er),1)})}});
+$('#modal').addEventListener('click',function(e){if(e.target===$('#modal')){$('#modal').hidden=true;modalCb=null}});
+addEventListener('keydown',function(e){if(e.key==='Escape'&&!$('#modal').hidden){$('#modal').hidden=true;modalCb=null}
+ if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='s'&&C){e.preventDefault();if(!$('#pub').disabled)publish()}
+ var tg=e.target&&e.target.tagName,inField=tg==='INPUT'||tg==='TEXTAREA'||tg==='SELECT';
+ if(C&&!inField&&(e.ctrlKey||e.metaKey)){var k=e.key.toLowerCase();if(k==='z'&&!e.shiftKey){e.preventDefault();undo()}else if(k==='y'||(k==='z'&&e.shiftKey)){e.preventDefault();redo()}}});
+
+/* ---------- publish: ONE atomic commit (content + images + documents + deletions) ---------- */
+function refPath(){return encPath('heads/'+cfg.br)}
+function commitMsg(){var s=diffSummary(JSON.parse(ORIG),C),n=Object.keys(pend).length+Object.keys(docPend).length;return 'Update portfolio via CMS'+(s.length?': '+s.slice(0,4).join('; '):'')+(n?' (+'+n+' file'+(n>1?'s':'')+')':'')+(Object.keys(delQ).length?' ('+Object.keys(delQ).length+' deleted)':'')}
+function publish(){
+ var errs=checks().filter(function(x){return x.lvl==='err'});
+ if(errs.length){jump(errs[0]);return toast(errs[0].msg,1)}
+ if(C.siteUrl&&!/\/$/.test(C.siteUrl))C.siteUrl+='/';
+ var btn=$('#pub');btn.disabled=true;btn.textContent='Publishing...';
+ var u=used(),files=[],dels=Object.keys(delQ),text=JSON.stringify(C,null,2)+'\n',head,baseTree,newBlob,newCommit,msg=commitMsg();
+ Object.keys(pend).forEach(function(p){if(keep[p]||u[p])files.push({path:p,b64:pend[p]})});
+ Object.keys(docPend).forEach(function(k){files.push({path:docPend[k].name,b64:docPend[k].b64})});
+ api('/contents/content.json?ref='+encodeURIComponent(cfg.br)).then(function(j){if(j.sha!==SHA){var er=new Error('conflict');er.status=409;throw er}})
+ .then(function(){return api('/git/ref/'+refPath())}).then(function(r){head=r.object.sha;return api('/git/commits/'+head)}).then(function(c){baseTree=c.tree.sha})
+ .then(function(){var tree=[],chain=Promise.resolve();
+  files.forEach(function(f){chain=chain.then(function(){return api('/git/blobs',{method:'POST',body:{content:f.b64,encoding:'base64'}}).then(function(b){tree.push({path:f.path,mode:'100644',type:'blob',sha:b.sha})})})});
+  chain=chain.then(function(){return api('/git/blobs',{method:'POST',body:{content:text,encoding:'utf-8'}}).then(function(b){newBlob=b.sha;tree.push({path:'content.json',mode:'100644',type:'blob',sha:b.sha})})});
+  dels.forEach(function(p){tree.push({path:p,mode:'100644',type:'blob',sha:null})});
+  return chain.then(function(){return tree})})
+ .then(function(tree){return api('/git/trees',{method:'POST',body:{base_tree:baseTree,tree:tree}})})
+ .then(function(t){return api('/git/commits',{method:'POST',body:{message:msg,tree:t.sha,parents:[head]}})})
+ .then(function(c){newCommit=c.sha;return api('/git/refs/'+refPath(),{method:'PATCH',body:{sha:c.sha}})})
+ .then(function(){SHA=newBlob;ORIG=JSON.stringify(C);resetUR();pend={};pmime={};keep={};delQ={};docPend={};dirty=false;LIB=null;HIST=null;clearDraft();mark();render();ensure();startDeploy(newCommit);toast('Published in one commit. The live site updates in about 1-2 minutes.')})
+ .catch(function(er){toast(errMsg(er,'save'),1)})
+ .then(function(){btn.disabled=false;btn.textContent='Publish'})}
+$('#pub').onclick=publish;$('#undo').onclick=undo;$('#redo').onclick=redo;
+
+/* ---------- deploy status (needs the optional Actions: Read permission) ---------- */
+function showDep(){var el=$('#dep');if(!dep){el.hidden=true;return}el.hidden=false;var m={queued:['Queued...',''],building:['Deploying...','wn'],live:['Live \u2713','ok'],failed:['Build failed \u2717','er'],unknown:['Published \u2713 (live in ~1-2 min)','ok']}[dep.state];
+ el.textContent=m[0];el.className='chip '+m[1];if(dep.url){el.href=dep.url}else el.removeAttribute('href')}
+function startDeploy(sha){dep={sha:sha,state:'queued',tries:0};showDep();(function poll(){if(!dep||dep.sha!==sha)return;
+ api('/actions/runs?head_sha='+sha+'&per_page=5').then(function(j){var r=(j.workflow_runs||[])[0];if(!r)dep.state='queued';else{dep.url=r.html_url;dep.state=r.status==='completed'?(r.conclusion==='success'?'live':'failed'):'building'}showDep();
+  if(dep.state==='live'||dep.state==='failed')return;if(++dep.tries<100)setTimeout(poll,POLL)}).catch(function(){dep.state='unknown';showDep()})})()}
+})();
+</script>
+</body>
+</html>
